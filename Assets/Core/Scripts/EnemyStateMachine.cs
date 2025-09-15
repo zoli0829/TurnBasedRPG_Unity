@@ -1,13 +1,13 @@
 using UnityEngine;
 
-
 public class EnemyStateMachine : MonoBehaviour
 {
+    private BattleStateMachine battleStateMachine;
     public BaseEnemy enemy;
     
     public enum TurnState
     {
-        PROCESSING, ADDTOLIST, WAITING, SELECTING, ACTION, DEAD
+        PROCESSING, CHOOSEACTION, WAITING, ACTION, DEAD
     }
     
     public TurnState currentState;
@@ -15,9 +15,15 @@ public class EnemyStateMachine : MonoBehaviour
     // for the ProgressBar
     private float currentCooldown = 0f;
     private float maximumCooldown = 5f;
+    
+    // this gameObject
+    private Vector3 startPosition;
+    
     void Start()
     {
         currentState = TurnState.PROCESSING;
+        battleStateMachine = GameObject.FindFirstObjectByType<BattleStateMachine>();
+        startPosition = transform.position;
     }
 
     void Update()
@@ -27,14 +33,12 @@ public class EnemyStateMachine : MonoBehaviour
             case TurnState.PROCESSING:
                 UpdateProgressBar();
                 break;
-            case TurnState.ADDTOLIST:
-                
+            case TurnState.CHOOSEACTION:
+                ChooseAction();
+                currentState = TurnState.WAITING;
                 break;
             case TurnState.WAITING:
-                
-                break;
-            case TurnState.SELECTING:
-                
+                // idle state
                 break;
             case TurnState.ACTION:
                 
@@ -50,7 +54,16 @@ public class EnemyStateMachine : MonoBehaviour
         currentCooldown += Time.deltaTime;
         if (currentCooldown >= maximumCooldown)
         {
-            currentState = TurnState.ADDTOLIST;
+            currentState = TurnState.CHOOSEACTION;
         }
+    }
+
+    void ChooseAction()
+    {
+        TurnHandler myAttack = new TurnHandler();
+        myAttack.Attacker = enemy.name;
+        myAttack.AttackerGO = this.gameObject;
+        myAttack.AttackersTarget = battleStateMachine.heroesInBattle[Random.Range(0, battleStateMachine.heroesInBattle.Count)];
+        battleStateMachine.CollectActions(myAttack);
     }
 }
