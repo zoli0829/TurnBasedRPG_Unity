@@ -6,6 +6,6 @@ public class EnemySelectButton : MonoBehaviour
 
     public void SelectEnemy()
     {
-        GameObject.FindFirstObjectByType<BattleStateMachine>(); // save input enemy prefab
+        GameObject.FindFirstObjectByType<BattleStateMachine>().Input2(enemyPrefab); // save input enemy prefab
     }
 }
