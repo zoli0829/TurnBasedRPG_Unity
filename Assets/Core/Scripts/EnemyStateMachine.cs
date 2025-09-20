@@ -15,13 +15,13 @@ public class EnemyStateMachine : MonoBehaviour
     
     // for the ProgressBar
     private float currentCooldown = 0f;
-    private float maximumCooldown = 5f;
+    private float maximumCooldown = 10f;
     // this gameObject
     private Vector3 startPosition;
     // time for action stuff
     private bool actionStarted = false;
     public GameObject heroToAttack;
-    private float animSpeed = 5f;
+    private float animSpeed = 10f;
     
     void Start()
     {
