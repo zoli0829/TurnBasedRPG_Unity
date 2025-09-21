@@ -18,6 +18,7 @@ public class EnemyStateMachine : MonoBehaviour
     private float maximumCooldown = 10f;
     // this gameObject
     private Vector3 startPosition;
+    public GameObject selector;
     // time for action stuff
     private bool actionStarted = false;
     public GameObject heroToAttack;
@@ -26,6 +27,7 @@ public class EnemyStateMachine : MonoBehaviour
     void Start()
     {
         currentState = TurnState.PROCESSING;
+        selector.SetActive(false);
         battleStateMachine = GameObject.FindFirstObjectByType<BattleStateMachine>();
         startPosition = transform.position;
     }
@@ -65,7 +67,7 @@ public class EnemyStateMachine : MonoBehaviour
     void ChooseAction()
     {
         TurnHandler myAttack = new TurnHandler();
-        myAttack.Attacker = enemy.name;
+        myAttack.Attacker = enemy.theName;
         myAttack.Type = "Enemy";
         myAttack.AttackerGO = this.gameObject;
         myAttack.AttackersTarget = battleStateMachine.heroesInBattle[Random.Range(0, battleStateMachine.heroesInBattle.Count)];
@@ -116,5 +118,10 @@ public class EnemyStateMachine : MonoBehaviour
     bool MoveTowardsStartPosition(Vector3 target)
     {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
+    }
+
+    public GameObject GetSelector()
+    {
+        return selector;
     }
 }

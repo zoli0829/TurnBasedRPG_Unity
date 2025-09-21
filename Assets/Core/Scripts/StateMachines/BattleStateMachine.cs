@@ -113,7 +113,7 @@ public class BattleStateMachine : MonoBehaviour
             EnemyStateMachine currentEnemy = enemy.GetComponent<EnemyStateMachine>();
             
             TextMeshProUGUI buttonText = newButton.transform.Find("Text").GetComponent<TextMeshProUGUI>();
-            buttonText.text = currentEnemy.name;
+            buttonText.text = currentEnemy.enemy.theName;
 
             button.enemyPrefab = enemy;
             
@@ -124,7 +124,7 @@ public class BattleStateMachine : MonoBehaviour
 
     public void Input1() // attack button
     {
-        heroChoice.Attacker = heroesToManage[0].GetComponent<HeroStateMachine>().hero.name;
+        heroChoice.Attacker = heroesToManage[0].GetComponent<HeroStateMachine>().hero.theName;
         heroChoice.AttackerGO = heroesToManage[0];
         heroChoice.Type = "Hero";
         
